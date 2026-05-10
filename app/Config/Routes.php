@@ -11,6 +11,7 @@ $routes->get('/', 'Home::index');
 $routes->get('mahasiswa', 'Mahasiswa::index');
 $routes->get('mahasiswa/getData', 'Mahasiswa::getData');
 $routes->post('mahasiswa/simpan', 'Mahasiswa::simpan');
+$routes->get('mahasiswa/hapus/(:num)', 'Mahasiswa::hapus/$1');
 
 $routes->get('test', function () {
     return 'Route Berhasil';

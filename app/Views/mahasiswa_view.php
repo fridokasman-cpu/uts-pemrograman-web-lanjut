@@ -2,98 +2,64 @@
 <html>
 <head>
     <title>Data Mahasiswa</title>
-
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
-
 <body>
 
-<h2>Data Mahasiswa</h2>
+<h2>CRUD Mahasiswa</h2>
 
+<input type="text" id="nim" placeholder="NIM">
 <input type="text" id="nama" placeholder="Nama">
-<input type="text" id="prodi" placeholder="Prodi">
+<button onclick="simpan()">Simpan</button>
 
-<button id="btnSimpan">Simpan</button>
+<hr>
 
 <table border="1" width="50%">
     <thead>
         <tr>
-            <th>ID</th>
+            <th>NIM</th>
             <th>Nama</th>
-            <th>Prodi</th>
+            <th>Aksi</th>
         </tr>
     </thead>
-
-    <tbody id="tbody"></tbody>
+    <tbody id="data"></tbody>
 </table>
 
 <script>
-
-$(document).ready(function(){
-
-    loadData();
-
-    function loadData(){
-
-        $.ajax({
-
-            url: "<?= base_url('mahasiswa/getData'); ?>",
-            method: "GET",
-            dataType: "json",
-
-            success:function(response){
-
-                let html = '';
-
-                response.data.forEach(function(row){
-
-                    html += "<tr>";
-                    html += "<td>"+row.id+"</td>";
-                    html += "<td>"+row.nama+"</td>";
-                    html += "<td>"+row.prodi+"</td>";
-                    html += "</tr>";
-
-                });
-
-                $("#tbody").html(html);
-
-            }
-
+function loadData() {
+    $.get('/mahasiswa/getData', function(data) {
+        let html = '';
+        data.forEach(function(row) {
+            html += `
+                <tr>
+                    <td>${row.nim}</td>
+                    <td>${row.nama}</td>
+                    <td>
+                        <button onclick="hapus(${row.id})">Hapus</button>
+                    </td>
+                </tr>
+            `;
         });
-
-    }
-
-    $("#btnSimpan").click(function(){
-
-        let nama = $("#nama").val();
-        let prodi = $("#prodi").val();
-
-        $.ajax({
-
-            url: "<?= base_url('mahasiswa/simpan'); ?>",
-            method: "POST",
-
-            data:{
-                nama:nama,
-                prodi:prodi
-            },
-
-            dataType:"json",
-
-            success:function(res){
-
-                alert("Data berhasil disimpan");
-
-                loadData();
-
-            }
-
-        });
-
+        $('#data').html(html);
     });
+}
 
-});
+function simpan() {
+    $.post('/mahasiswa/simpan', {
+        nim: $('#nim').val(),
+        nama: $('#nama').val()
+    }, function() {
+        loadData();
+    });
+}
 
+function hapus(id) {
+    $.get('/mahasiswa/hapus/' + id, function() {
+        loadData();
+    });
+}
+
+loadData();
 </script>
 
 </body>
