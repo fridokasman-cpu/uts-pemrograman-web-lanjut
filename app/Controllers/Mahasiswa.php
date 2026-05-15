@@ -22,7 +22,7 @@ class Mahasiswa extends BaseController
         $model = new MahasiswaModel();
 
         $model->save([
-            'nim'  => $this->request->getPost('nim'),
+            'prodi'  => $this->request->getPost('prodi'),
             'nama' => $this->request->getPost('nama')
         ]);
 

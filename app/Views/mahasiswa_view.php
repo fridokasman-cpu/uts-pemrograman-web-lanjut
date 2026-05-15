@@ -8,7 +8,7 @@
 
 <h2>CRUD Mahasiswa</h2>
 
-<input type="text" id="nim" placeholder="NIM">
+<input type="text" id="prodi" placeholder="Prodi">
 <input type="text" id="nama" placeholder="Nama">
 <button onclick="simpan()">Simpan</button>
 
@@ -17,7 +17,7 @@
 <table border="1" width="50%">
     <thead>
         <tr>
-            <th>NIM</th>
+            <th>Prodi</th>
             <th>Nama</th>
             <th>Aksi</th>
         </tr>
@@ -32,7 +32,7 @@ function loadData() {
         data.forEach(function(row) {
             html += `
                 <tr>
-                    <td>${row.nim}</td>
+                    <td>${row.prodi}</td>
                     <td>${row.nama}</td>
                     <td>
                         <button onclick="hapus(${row.id})">Hapus</button>
@@ -46,7 +46,7 @@ function loadData() {
 
 function simpan() {
     $.post('/mahasiswa/simpan', {
-        nim: $('#nim').val(),
+        prodi: $('#prodi').val(),
         nama: $('#nama').val()
     }, function() {
         loadData();
